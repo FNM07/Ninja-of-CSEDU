@@ -1,0 +1,68 @@
+﻿Build started 11/23/2016 12:34:52 PM.
+     1>Project "C:\Users\User\Desktop\codes\visual studio\video\video\video.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\User\Desktop\codes\visual studio\video\video\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(134): error C2065: 'window' : undeclared identifier
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(134): error C2228: left of '.draw' must have class/struct/union
+                 type is 'unknown-type'
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(139): error C2065: 'window' : undeclared identifier
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(139): error C2228: left of '.draw' must have class/struct/union
+                 type is 'unknown-type'
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(248): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(305): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(319): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(326): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(485): warning C4244: 'initializing' : conversion from 'sf::Int32' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(491): warning C4244: '=' : conversion from 'sf::Int32' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(522): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(555): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(556): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(557): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(558): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(559): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(561): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(587): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(593): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(599): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(637): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(639): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(646): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(648): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(701): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(769): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(796): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(797): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(802): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(803): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(807): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(808): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(815): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(820): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(830): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(831): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(835): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(836): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(850): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(870): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(871): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(883): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(919): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(920): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(921): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(922): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(923): warning C4244: '=' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\1st_year.h(931): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\level_menu.h(72): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\level_menu.h(84): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(87): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(99): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(110): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(120): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(130): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\user\desktop\codes\visual studio\video\video\mainmenu.h(140): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Done Building Project "C:\Users\User\Desktop\codes\visual studio\video\video\video.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.54
