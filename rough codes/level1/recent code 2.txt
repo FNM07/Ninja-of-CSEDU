@@ -1,0 +1,212 @@
+#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int main()
+{
+
+	int i, xod = 600, upward = 200, j, s;
+	enum Task  { Run, Jump, Slide };
+
+	Clock clock;
+	float timer = 0, delay = 0.1;
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart, tground, tobstacle;
+	Sprite playerImage, bars, sground;
+	Sprite sobstacle[10];
+	
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+
+
+
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+
+	tobstacle.loadFromFile("obstacle1.png");
+	//sobstacle.setTexture(tobstacle);
+
+	sobstacle[0].setTexture(tobstacle);
+	sobstacle[0].setTextureRect(IntRect(4, 4, 195, 109));
+	sobstacle[1].setTexture(tobstacle);
+	sobstacle[1].setTextureRect(IntRect(198, 4, 195, 109));
+
+	while (window.isOpen())
+	{
+
+		float time = clock.getElapsedTime().asMilliseconds();
+		clock.restart();
+		timer += time;
+		Event e;
+		while (window.pollEvent(e))
+		{
+			
+			switch (e.type)
+			{
+			case Event::Closed:
+				window.close();
+				break;
+			case Event::KeyPressed:
+				if (e.key.code == Keyboard::Up)
+				{
+					source.y = Jump;  j = 0;
+				}
+				else if (e.key.code == Keyboard::Down)
+				{
+					source.y = Slide; s = 0;
+				}
+				break;
+
+			}
+		}
+
+
+		
+
+	
+
+		if (source.y == Jump)
+		{
+			int  dif = 50;
+			playerImage.setTextureRect(IntRect(j * 135, 136, 135, 115));
+			if (j == 0) playerImage.setPosition(50, 300 - dif * 1);
+			else if (j == 1) playerImage.setPosition(50, 300 - dif * 2);
+			else if (j == 2) playerImage.setPosition(50, 300 - dif * 3);
+			else if (j == 3) playerImage.setPosition(50, 300 - dif * 2);
+			else if (j == 4) playerImage.setPosition(50, 300 - dif * 1);
+			else if (j == 5) playerImage.setPosition(50, 300 - dif * 0);
+			
+
+			window.draw(playerImage);
+			j++;
+			
+			if (j >=6)
+			{
+				
+				source.x = 0;  source.y = Run;
+			}
+
+			printf("j= %d\n", j);
+
+		}
+
+		else if (source.y==Slide)
+		{
+		playerImage.move(0, 2);
+		int x1;
+		if (s==0)
+		 x1=50;
+		
+		playerImage.setTextureRect(IntRect(s * 145, 2 * 136, 145, 115));
+
+		playerImage.setPosition(x1 , playerImage.getPosition().y-20);
+		x1 += 50;
+		window.draw(playerImage);
+		s++;
+		if (s>=6)
+		{
+			source.x = 0;  source.y = Run;
+		}
+		playerImage.move(0, -2);
+
+		}
+
+		else if (source.y == Run){
+			source.x++;
+			if (source.x>=6)
+				source.x = 0;
+
+			playerImage.setTextureRect(IntRect(source.x * 95, source.y, 95, 90));
+			window.draw(playerImage);
+
+			
+		}
+
+		
+		
+
+		if (timer > 50 )
+		{
+			xod -= 15;
+			timer = 0;
+		}
+
+			sobstacle[0].setPosition(xod, 292);
+			window.draw(sobstacle[0]);
+
+			sobstacle[1].setPosition(xod + 500, 220);	
+			window.draw(sobstacle[1]);
+			
+			
+			
+		sground.setPosition(0, 400);
+		
+		if (xod + 600 <= 0)  xod = 600;
+		
+
+		
+
+		int k;
+		for ( k = 0; k < 2; k++)
+		{
+			int x1 = playerImage.getPosition().x+95;
+			int y1 = playerImage.getPosition().y;
+			int r1 = sobstacle[k].getPosition().x;
+			int r2 = sobstacle[k].getPosition().x +130;
+			int m1 = sobstacle[k].getPosition().y;
+
+			if (x1 >=  r1 && playerImage.getPosition().x <= r2  && m1-y1<=100 && m1-y1>=88)
+			{
+				if (fabs(playerImage.getPosition().y - (m1 - 95))<=15) {
+					printf("Fuck\n"); j = 6;
+				}
+				playerImage.setPosition(50, m1 -95);
+				/*if (source.y == Jump)
+				{
+					source.y = Run;
+					j = 6;
+				}*/
+				
+				break;
+				
+			}
+
+			//if (m1 - y1 <7)  printf("You are out\n");
+			//printf("%d %d dif = %d\n", m1, y1, (m1-y1));
+
+			if (x1 >= r1 && playerImage.getPosition().x <= r2  &&  (m1 - y1 <= 8) ) printf("You are out\n");
+
+		}
+		
+
+		if (k == 2) playerImage.setPosition(playerImage.getPosition().x,sground.getPosition().y-95);
+		if (playerImage.getPosition().x > 50) playerImage.move(-15, 0);
+		
+
+		window.draw(sground);
+		
+
+		window.display();
+		window.clear();
+
+
+
+	}
+
+	return 0;
+} 

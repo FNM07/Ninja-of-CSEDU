@@ -1,0 +1,501 @@
+#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int main()
+{
+
+	int i, xod = 600, upward = 200;
+	enum Task  { Run, Jump, Slide };
+
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart,tground, tobstacle;
+	Sprite playerImage, bars,sground, sobstacle;
+	Clock clock;
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+	
+	
+
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+	
+	tobstacle.loadFromFile("obstacle.png");
+	sobstacle.setTexture(tobstacle);
+
+	
+	while (window.isOpen())
+	{
+
+		source.y = Run;
+		Event e;
+		while (window.pollEvent(e))
+		{
+			source.y = Run;
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+						source.y = Jump;
+					else if (e.key.code == Keyboard::Down)
+						source.y = Slide;
+					break;
+
+				}
+		}
+
+
+		source.x++;
+		if (source.x * 135 >= pTexture.getSize().x)
+			source.x = 0;
+
+		if (source.y == Jump)
+		{
+			printf("Fuck\n");
+			for (i = 0; i < 6; i++){
+				playerImage.setTextureRect(IntRect(i * 135, 136, 135, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+			}
+			source.x = 0;
+		}
+
+		else if (source.y == Slide)
+		{
+			playerImage.move(0, 2);
+			for (i = 0; i < 6; i++){
+				
+				playerImage.setTextureRect(IntRect(i * 145, 2 * 136, 145, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+				
+			}
+			source.x = 0;
+			playerImage.move(0, -2);
+		}
+		
+		playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 115));
+		sobstacle.setPosition(xod, 292);
+		sground.setPosition(0, 400);
+		xod-=20;
+		if (xod+600 <= 0)  xod = 600;
+		//playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 136));
+
+		if (isCollide(playerImage, sobstacle) || isCollide(playerImage, sground))
+			playerImage.move(0, -10);
+		else playerImage.move(0, 20);
+
+
+
+		window.draw(sground);
+		window.draw(sobstacle);
+		window.draw(playerImage);
+		
+		window.display();
+		window.clear();
+
+
+
+	}
+
+	return 0;
+}#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int main()
+{
+
+	int i, xod = 600, upward = 200;
+	enum Task  { Run, Jump, Slide };
+
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart,tground, tobstacle;
+	Sprite playerImage, bars,sground, sobstacle;
+	Clock clock;
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+	
+	
+
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+	
+	tobstacle.loadFromFile("obstacle.png");
+	sobstacle.setTexture(tobstacle);
+
+	
+	while (window.isOpen())
+	{
+
+		source.y = Run;
+		Event e;
+		while (window.pollEvent(e))
+		{
+			source.y = Run;
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+						source.y = Jump;
+					else if (e.key.code == Keyboard::Down)
+						source.y = Slide;
+					break;
+
+				}
+		}
+
+
+		source.x++;
+		if (source.x * 135 >= pTexture.getSize().x)
+			source.x = 0;
+
+		if (source.y == Jump)
+		{
+			printf("Fuck\n");
+			for (i = 0; i < 6; i++){
+				playerImage.setTextureRect(IntRect(i * 135, 136, 135, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+			}
+			source.x = 0;
+		}
+
+		else if (source.y == Slide)
+		{
+			playerImage.move(0, 2);
+			for (i = 0; i < 6; i++){
+				
+				playerImage.setTextureRect(IntRect(i * 145, 2 * 136, 145, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+				
+			}
+			source.x = 0;
+			playerImage.move(0, -2);
+		}
+		
+		playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 115));
+		sobstacle.setPosition(xod, 292);
+		sground.setPosition(0, 400);
+		xod-=20;
+		if (xod+600 <= 0)  xod = 600;
+		//playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 136));
+
+		if (isCollide(playerImage, sobstacle) || isCollide(playerImage, sground))
+			playerImage.move(0, -10);
+		else playerImage.move(0, 20);
+
+
+
+		window.draw(sground);
+		window.draw(sobstacle);
+		window.draw(playerImage);
+		
+		window.display();
+		window.clear();
+
+
+
+	}
+
+	return 0;
+}#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int main()
+{
+
+	int i, xod = 600, upward = 200;
+	enum Task  { Run, Jump, Slide };
+
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart,tground, tobstacle;
+	Sprite playerImage, bars,sground, sobstacle;
+	Clock clock;
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+	
+	
+
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+	
+	tobstacle.loadFromFile("obstacle.png");
+	sobstacle.setTexture(tobstacle);
+
+	
+	while (window.isOpen())
+	{
+
+		source.y = Run;
+		Event e;
+		while (window.pollEvent(e))
+		{
+			source.y = Run;
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+						source.y = Jump;
+					else if (e.key.code == Keyboard::Down)
+						source.y = Slide;
+					break;
+
+				}
+		}
+
+
+		source.x++;
+		if (source.x * 135 >= pTexture.getSize().x)
+			source.x = 0;
+
+		if (source.y == Jump)
+		{
+			printf("Fuck\n");
+			for (i = 0; i < 6; i++){
+				playerImage.setTextureRect(IntRect(i * 135, 136, 135, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+			}
+			source.x = 0;
+		}
+
+		else if (source.y == Slide)
+		{
+			playerImage.move(0, 2);
+			for (i = 0; i < 6; i++){
+				
+				playerImage.setTextureRect(IntRect(i * 145, 2 * 136, 145, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+				
+			}
+			source.x = 0;
+			playerImage.move(0, -2);
+		}
+		
+		playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 115));
+		sobstacle.setPosition(xod, 292);
+		sground.setPosition(0, 400);
+		xod-=20;
+		if (xod+600 <= 0)  xod = 600;
+		//playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 136));
+
+		if (isCollide(playerImage, sobstacle) || isCollide(playerImage, sground))
+			playerImage.move(0, -10);
+		else playerImage.move(0, 20);
+
+
+
+		window.draw(sground);
+		window.draw(sobstacle);
+		window.draw(playerImage);
+		
+		window.display();
+		window.clear();
+
+
+
+	}
+
+	return 0;
+}#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int main()
+{
+
+	int i, xod = 600, upward = 200;
+	enum Task  { Run, Jump, Slide };
+
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart,tground, tobstacle;
+	Sprite playerImage, bars,sground, sobstacle;
+	Clock clock;
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+	
+	
+
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+	
+	tobstacle.loadFromFile("obstacle.png");
+	sobstacle.setTexture(tobstacle);
+
+	
+	while (window.isOpen())
+	{
+
+		source.y = Run;
+		Event e;
+		while (window.pollEvent(e))
+		{
+			source.y = Run;
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+						source.y = Jump;
+					else if (e.key.code == Keyboard::Down)
+						source.y = Slide;
+					break;
+
+				}
+		}
+
+
+		source.x++;
+		if (source.x * 135 >= pTexture.getSize().x)
+			source.x = 0;
+
+		if (source.y == Jump)
+		{
+			printf("Fuck\n");
+			for (i = 0; i < 6; i++){
+				playerImage.setTextureRect(IntRect(i * 135, 136, 135, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+			}
+			source.x = 0;
+		}
+
+		else if (source.y == Slide)
+		{
+			playerImage.move(0, 2);
+			for (i = 0; i < 6; i++){
+				
+				playerImage.setTextureRect(IntRect(i * 145, 2 * 136, 145, 115));
+				window.draw(playerImage);
+				window.draw(sground);
+				window.draw(sobstacle);
+				window.display();
+				window.clear();
+				
+			}
+			source.x = 0;
+			playerImage.move(0, -2);
+		}
+		
+		playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 115));
+		sobstacle.setPosition(xod, 292);
+		sground.setPosition(0, 400);
+		xod-=20;
+		if (xod+600 <= 0)  xod = 600;
+		//playerImage.setTextureRect(IntRect(source.x * 135, source.y, 135, 136));
+
+		if (isCollide(playerImage, sobstacle) || isCollide(playerImage, sground))
+			playerImage.move(0, -10);
+		else playerImage.move(0, 20);
+
+
+
+		window.draw(sground);
+		window.draw(sobstacle);
+		window.draw(playerImage);
+		
+		window.display();
+		window.clear();
+
+
+
+	}
+
+	return 0;
+}

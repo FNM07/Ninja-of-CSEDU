@@ -1,0 +1,298 @@
+#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+#include<string>
+using namespace std;
+using namespace sf;
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int coin_sect[50];
+int main()
+{
+
+	int i, xod = 600, upward = 200, j, s, flag = 0,count=0;
+	enum Task  { Run, Jump, Slide };
+	int distance[16] = { 0, 395, 795, 1295, 1690, 2235, 2640, 2985, 3485, 3985, 4485 , 4985, 5485 , 5985, 6495, 6985};
+	Clock clock;
+	float timer = 0, delay = 0.1;
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+	RenderWindow window(VideoMode(800, 600), "The Game!");
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart, tground, tobstacle, game_over,pcoins;
+	Sprite playerImage, bars, sground, sgame_over;
+	Sprite sobstacle[20],coins[100];
+
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50, 300);
+
+	game_over.loadFromFile("GAME_OVER.png");
+	sgame_over.setTexture(game_over);
+	sgame_over.setPosition(0, 0);
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+
+	tobstacle.loadFromFile("obstacle1.png");
+	//sobstacle.setTexture(tobstacle);
+	int t = 0;
+	while (t < 16){
+		for (i = 0; i < 4; i++)
+		{
+			for (j = 0; j < 4; j++)
+			{
+				sobstacle[t].setTexture(tobstacle);
+				sobstacle[t].setTextureRect(IntRect(4 + j * 194, 4 + i*109 , 195, 109));
+				t++;
+			}
+		}
+	}
+
+
+	pcoins.loadFromFile("coin.png");
+	for (i = 0; i < 50; i++)
+		coins[i].setTexture(pcoins);
+
+	Font font;
+	font.loadFromFile("naruto.ttf");
+
+	String sentence;
+	Text text(sentence, font, 40);
+	text.setColor(Color(44, 127, 255));
+	text.setStyle(Text::Bold);
+	
+	sentence = "Your score is:   ";
+
+	while (window.isOpen())
+	{
+
+			
+
+		if (flag == 0){
+			float time = clock.getElapsedTime().asMilliseconds();
+			clock.restart();
+			timer += time;
+			Event e;
+			while (window.pollEvent(e))
+			{
+
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+					{
+						source.y = Jump;  j = 0;
+					}
+					else if (e.key.code == Keyboard::Down)
+					{
+						source.y = Slide; s = 0;
+					}
+					break;
+
+				}
+			}
+
+
+
+
+
+			///JUMP////
+			if (source.y == Jump)
+			{
+				int  dif = 50;
+				playerImage.setTextureRect(IntRect(j * 135, 136, 135, 115));
+				if (j == 0) playerImage.setPosition(50, 300 - dif * 1);
+				else if (j == 1) playerImage.setPosition(50, 300 - dif * 2);
+				else if (j == 2) playerImage.setPosition(50, 300 - dif * 3);
+				else if (j == 3) playerImage.setPosition(50, 300 - dif * 2);
+				else if (j == 4) playerImage.setPosition(50, 300 - dif * 1);
+				else if (j == 5) playerImage.setPosition(50, 300 - dif * 0);
+
+
+				window.draw(playerImage);
+				j++;
+
+				if (j >= 6)
+				{
+
+					source.x = 0;  source.y = Run;
+				}
+
+			
+
+			}
+
+			/////SLIDE//////
+			else if (source.y == Slide)
+			{
+				playerImage.move(0, 2);
+				int x1;
+				if (s == 0)
+					x1 = 50;
+				if (s == 0)
+				{
+					playerImage.setTextureRect(IntRect(s * 145, 2 * 136, 145, 115));
+					playerImage.setPosition(x1, playerImage.getPosition().y - 20);
+				}
+
+				else if (s == 4 || s == 5)
+				{
+					playerImage.setTextureRect(IntRect(s * 145, (2 * 136 + 30), 145, 80));
+					playerImage.setPosition(x1, playerImage.getPosition().y + 20);
+				}
+
+
+				else{
+					playerImage.setTextureRect(IntRect(s * 145, (2 * 136 + 55), 145, 60));
+					playerImage.setPosition(x1, playerImage.getPosition().y + 35);
+				}
+				x1 += 50;
+				window.draw(playerImage);
+				s++;
+				if (s >= 6)
+				{
+					source.x = 0;  source.y = Run;
+				}
+				playerImage.move(0, -2);
+
+			}
+			/////RUN////
+			else if (source.y == Run){
+				source.x++;
+				if (source.x >= 6)
+					source.x = 0;
+
+				playerImage.setTextureRect(IntRect(source.x * 95, source.y, 95, 90));
+				window.draw(playerImage);
+
+
+			}
+			///RUN END////
+
+
+		////Obstacles moving ////
+			if (timer > 50)
+			{
+				xod -= 15;
+				timer = 0;
+			}
+
+			int c = 0;
+				for (t= 0; t < 16; t++)
+				{
+					if (t % 2 == 0)
+						sobstacle[t].setPosition(xod + distance[t], 292);
+					else
+						sobstacle[t].setPosition(xod + distance[t], 220);
+					window.draw(sobstacle[t]);
+
+					for (i = 0; i <3; i++)
+					{
+						if (t%2==0)
+							coins[c].setPosition(xod + distance[t] + i * 65, 220 + coin_sect[c]);
+						if (t % 2 == 1)
+							coins[c].setPosition(xod + distance[t] + i * 65, 339+ coin_sect[c]);
+
+						window.draw(coins[c]);
+
+							c++;
+		
+					}
+					
+				
+				}
+			
+			sground.setPosition(0, 400);
+			if (sobstacle[15].getPosition().x +196 <= 0 )  xod = 600;
+
+
+			///Ground checking ////
+			int k;
+			for (k = 0; k < 16; k++)
+			{
+				int x1 = playerImage.getPosition().x + 95;
+				int y1 = playerImage.getPosition().y;
+				int r1 = sobstacle[k].getPosition().x;
+				int r2 = sobstacle[k].getPosition().x + 130;
+				int m1 = sobstacle[k].getPosition().y;
+
+				if (x1 >= r1 && playerImage.getPosition().x <= r2  && m1 - y1 <= 100 && m1 - y1 >= 88)
+				{
+					playerImage.setPosition(50, m1 - 95);
+					source.y = Run;
+					break;
+
+				}
+
+			
+
+				if (x1 >= r1 + 15 && playerImage.getPosition().x <= r2 && (m1 + 100 > y1))
+				{
+					
+					window.clear();
+					window.draw(sgame_over);
+					int count1 = count;
+
+				
+					while (count1>0)
+					{
+						int a;
+						a = count1 % 10;
+						count1 = count1 / 10;
+						a = a + 48;
+						char b = a;
+						sentence = sentence + b;
+					}
+
+					//printf("%s\n", sentence);
+					text.setString(sentence);
+					window.draw(text);
+					flag = 1;
+
+				}
+
+			}
+
+			if (k == 16) playerImage.setPosition(playerImage.getPosition().x, sground.getPosition().y - 95);
+			if (playerImage.getPosition().x > 50) playerImage.move(-15, 0);
+
+			////Intersection checking////
+			for (i = 0; i < 50; i++)
+			{
+				if (isCollide(playerImage, coins[i]) == 1)
+				{
+					coin_sect[i] = -1000;
+					count++;
+					int count1 = count;
+					
+					
+
+					
+
+				}
+
+			}
+
+
+			
+			//printf("%d\n", count);
+			window.draw(sground);
+			window.display();
+			window.clear();
+
+		}
+
+	}
+
+	return 0;
+}
