@@ -1,0 +1,982 @@
+#include <SFML/Graphics.hpp>
+#include<time.h>
+#include<iostream>
+#include<stdio.h>
+#include<string>
+
+
+#include<iomanip>
+#include <Windows.h>
+
+using namespace std;
+using namespace sf;
+RenderWindow window(VideoMode(1200, 600), "The Game!");
+
+int lives = 5, flag = 0,mdistance,mj,mmove=0;
+int java_distance[10], tdistance[14], t1distance[14], train_distance[5];
+Sprite  AnifeImgae[5], ninja_star[40], sobstacle[20], transistor[12], java_Image[8], sgame_over, mummy, hit_image,strike_image;
+String sentence;
+Font font;
+Text text(sentence, font, 40);
+
+bool isCollide(Sprite  s1, Sprite s2)
+{
+	return s1.getGlobalBounds().intersects(s2.getGlobalBounds());
+}
+int coin_sect[50];
+int tx[20];
+void knife()
+{
+
+	AnifeImgae[0].setPosition(50, 300);
+	AnifeImgae[1].setPosition(55, 320);
+	AnifeImgae[2].setPosition(40, 290);
+	AnifeImgae[3].setPosition(45, 330);
+	AnifeImgae[4].setPosition(60, 340);
+	printf("doom\n");
+}
+
+
+int  attack(Sprite star)
+{
+	int cj;
+	for (cj = 0; cj <= 4; cj++)
+	{
+		if (isCollide(java_Image[cj], star))
+		{
+			java_distance[cj] = -1000;
+			return 1;
+		}
+
+	}
+
+	for (cj = 0; cj <= 11; cj++)
+	{
+		if (isCollide(transistor[cj], star))
+		{
+
+			tdistance[cj] = -1000;
+
+			return 1;
+		}
+
+	}
+
+	for (cj = 0; cj < 16; cj++)
+	{
+		if (isCollide(sobstacle[cj], star))
+			return 1;
+
+	}
+
+	if (isCollide(mummy, star)){
+		strike_image.setPosition(mummy.getPosition().x, mummy.getPosition().y);
+		window.draw(strike_image);
+		return 1;
+	}
+	  
+	return 0;
+
+}
+
+
+
+void GAME_OVER(int count)
+{
+	if (lives == 1){
+		window.clear();
+		window.draw(sgame_over);
+		int count1 = count;
+
+		string str;
+		while (count1 > 0)
+		{
+			int a;
+			a = count1 % 10;
+			count1 = count1 / 10;
+			a = a + 48;
+			char b = a;
+			str = str + b;
+		}
+
+		reverse(str.begin(), str.end());
+		sentence += str;
+		printf("%s\n", sentence);
+		text.setString(sentence);
+		window.draw(text);
+		flag = 1;
+	}
+	else
+	{
+		lives++;
+
+	}
+
+	printf("lives=%d\n", lives);
+
+}
+int main()
+{
+
+
+	int i, xod = -16600, upward = 200, j, s, posx = 0, posy = 0, flag2 = 1, up = 0, fl = 0, ninja_starflag = 0, total_trans = 11, life_flag = 0, sobstacle_index = 0,
+		nsf = 0, ns = 0, star_num = 40, js = 0, ts = 0, flagjump = 0, player_height = 300, jump_flag = 0, Anife_flag = 0, hole_flag = 0, holedex = 6
+		, flag3 = 1, flag4 = 0, up1 = 0;
+
+	enum Task  { Run, Jump, Slide };
+	int distance[16];
+	distance[0] = 0;
+	int  count = 0;
+
+
+
+	//////Positioning everything on the co ordinates///////
+	j = 2;
+	for (i = 1; i < 16; i++)
+	{
+		if (i <= 10)
+		{
+			distance[i] = distance[i - 1] + 1100 + rand() % 100;
+			train_distance[i] = distance[i - 1] + 1100 + rand() % 100;
+		}
+
+		else
+		{
+			distance[i] = distance[i - 1] + 1600 + rand() % 100;
+			train_distance[i] = distance[i - 1] + 1600 + rand() % 100;
+		}
+
+		if (i == 1)
+
+			java_distance[0] = distance[i] - 300;
+
+		if (i == 2)
+		{
+			java_distance[1] = distance[i] - 400;
+			java_distance[2] = distance[i] - 200;
+		}
+
+		else if (i == 3)
+		{
+			tdistance[0] = distance[i] - 200;
+			t1distance[0] = distance[i] - 200;
+		}
+		else if (i == 4)
+		{
+			tdistance[1] = distance[i] - 200;
+			t1distance[1] = distance[i] - 200;
+
+		}
+
+
+		if (i == 7 || i == 8)
+		{
+			tdistance[j] = distance[i] - 300;
+			t1distance[j] = distance[i] - 300;
+			j++;
+			tdistance[j] = distance[i] - 100;
+			t1distance[j] = distance[i] - 100;
+			j++;
+
+
+		}
+
+
+		if (i == 9)
+		{
+			java_distance[3] = distance[i] + 700;
+			java_distance[4] = distance[i] + 900;
+
+		}
+
+		if (i == 11 || i == 12)
+		{
+			tdistance[j] = distance[i] - 400;
+			t1distance[j] = distance[i] - 400;
+			j++;
+			tdistance[j] = distance[i] - 100;
+			t1distance[j] = distance[i] - 100;
+			j++;
+
+		}
+
+
+		if (i == 13)
+		{
+			tdistance[j] = distance[i] - 400;
+			t1distance[j] = distance[i] - 400;
+			j++;
+			tdistance[j] = distance[i] - 100;
+			t1distance[j] = distance[i] - 100;
+			j++;
+		}
+
+		if (i == 14)
+		{
+			mdistance = distance[i] - 100;
+		}
+
+
+	}
+
+
+
+
+	Clock clock, clock2, mummy_clock;
+	mummy_clock.restart();
+	float timer = 0, delay = 0.1, timer2 = 0, mummy_timer=0;
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
+
+
+	window.setFramerateLimit(10);
+	Vector2i source(0, Run);
+
+	Texture pTexture, bart, tground, tobstacle, game_over, pcoins, b1Texture, java_Texture, pstar, knifetx,strike, trantexture, mball, heart, mumy, tball, trainTexture, Anife, Aknife_flag, hole, hit;
+	Sprite playerImage, bars, sground, b1Image, b2Image, Aknife_flagImage, hole_image, player_heart, knife_effect, mummy_ball;
+	Sprite coins[100], trainImage[2], trans_ball[12];
+
+
+	if (!b1Texture.loadFromFile("bg.png"))
+		cout << "Error could not load player image" << endl;
+
+	b1Image.setTexture(b1Texture);
+	b2Image.setTexture(b1Texture);
+
+	knifetx.loadFromFile("knife_effct.png");
+	knife_effect.setTexture(knifetx);
+
+	Aknife_flag.loadFromFile("knife_flag.png");
+	Aknife_flagImage.setTexture(Aknife_flag);
+	Aknife_flagImage.setPosition(distance[5], 252);
+
+	hole.loadFromFile("black_hole.png");
+	hole_image.setTexture(hole);
+
+	strike.loadFromFile("strike.png");
+	strike_image.setTexture(strike);
+
+	mumy.loadFromFile("mummy.png");
+	mummy.setTexture(mumy);
+
+	mball.loadFromFile("mummy_ball.png");
+	mummy_ball.setTexture(mball);
+
+	hit.loadFromFile("got_hit.png");
+	hit_image.setTexture(hit);
+
+	heart.loadFromFile("player_heart.png");
+	player_heart.setTexture(heart);
+
+	trainTexture.loadFromFile("train.png");
+	for (i = 0; i < 2; i++)
+		trainImage[i].setTexture(trainTexture);
+
+	tball.loadFromFile("transistor ball.png");
+	for (i = 0; i <= 11; i++)
+		trans_ball[i].setTexture(tball);
+
+
+
+	Anife.loadFromFile("angled knives.png");
+	for (i = 0; i < 5; i++)
+
+		AnifeImgae[i].setTexture(Anife);
+
+
+	java_Texture.loadFromFile("javax.png");
+	for (i = 0; i < 8; i++)
+		java_Image[i].setTexture(java_Texture);
+
+	trantexture.loadFromFile("trransistors.png");
+	for (i = 0; i <= 11; i++)
+		transistor[i].setTexture(trantexture);
+
+
+
+
+	pstar.loadFromFile("knife.png");
+	for (i = 0; i < 20; i++)
+	{
+		ninja_star[i].setTexture(pstar);
+		ninja_star[i].setPosition(550, -50);
+	}
+
+
+	b2Image.setPosition(800, 0);
+
+
+	if (!pTexture.loadFromFile("xyz.png"))
+		cout << "Error could not load player image" << endl;
+	playerImage.setTexture(pTexture);
+	playerImage.setPosition(50+mmove, 300);
+
+	game_over.loadFromFile("GAME_OVER.png");
+	sgame_over.setTexture(game_over);
+	sgame_over.setPosition(0, 0);
+	tground.loadFromFile("ground.png");
+	sground.setTexture(tground);
+
+
+
+	tobstacle.loadFromFile("obstacle1.png");
+
+	int t = 0;
+	while (t < 16){
+		for (i = 0; i < 4; i++)
+		{
+			for (j = 0; j < 4; j++)
+			{
+				sobstacle[t].setTexture(tobstacle);
+				sobstacle[t].setTextureRect(IntRect(4 + j * 194, 4 + i * 109, 195, 109));
+				t++;
+			}
+		}
+	}
+
+
+	pcoins.loadFromFile("coin.png");
+	for (i = 0; i < 50; i++)
+		coins[i].setTexture(pcoins);
+
+
+
+	font.loadFromFile("naruto.ttf");
+
+
+	text.setColor(Color(44, 127, 255));
+	text.setStyle(Text::Bold);
+
+	sentence = "Your score is:   ";
+
+	////THE REAL GAME START FROM HERE/////
+	while (window.isOpen())
+	{
+
+
+
+		if (flag == 0){
+
+
+			window.draw(b1Image);
+			b1Image.move(-10, 0);
+
+			window.draw(b2Image);
+			b2Image.move(-10, 0);
+
+			//////features///////
+			///// blackhole////
+			if (hole_flag == 0){
+				hole_image.setPosition(xod + distance[holedex + 1] - 800, 210);
+				window.draw(hole_image);
+			}
+
+			if (b1Image.getPosition().x + 800 < 0) b1Image.setPosition(800, 0);
+			if (b2Image.getPosition().x + 800 < 0) b2Image.setPosition(800, 0);
+
+
+
+			float time = clock.getElapsedTime().asMilliseconds();
+			clock.restart();
+			timer += time;
+
+			timer2 = clock2.getElapsedTime().asMilliseconds();
+
+
+
+
+			if (life_flag == 1 && timer2 > 500)
+			{
+
+				timer2 = 0;
+				life_flag = 0;
+				distance[sobstacle_index] = -1000;
+				lives--;
+				if (lives <= 0)
+					life_flag = 1;
+			}
+
+			if (life_flag == 1)
+			{
+
+
+				if (lives <= 0)
+				{
+
+					if (flag3 == 1)
+						up1 = up1 - 30;
+					if (up1 <= -60) {
+						flag4 = 1; flag3 = 0;
+					}
+
+					if (flag4 == 1)
+						up1 = up1 + 50;
+
+					hit_image.setPosition(playerImage.getPosition().x, 220 + up1);
+					window.draw(hit_image);
+					//if (220 + up1 > 600)
+
+
+				}
+				else
+				{
+					hit_image.setPosition(playerImage.getPosition().x - 20, playerImage.getPosition().y - 10);
+					window.draw(hit_image);
+				}
+
+			}
+
+
+			player_heart.setTextureRect(IntRect(2, 2, lives * 65, 60));
+			window.draw(player_heart);
+
+
+			Event e;
+			while (window.pollEvent(e))
+			{
+
+				switch (e.type)
+				{
+				case Event::Closed:
+					window.close();
+					break;
+				case Event::KeyPressed:
+					if (e.key.code == Keyboard::Up)
+					{
+						source.y = Jump;  j = 0;
+					}
+					else if (e.key.code == Keyboard::Down)
+					{
+						source.y = Slide; s = 0;
+					}
+					break;
+
+				}
+			}
+
+
+			cout << life_flag << endl;
+
+			///JUMP////
+			if (life_flag == 0)
+			{
+
+
+				if (source.y == Jump)
+				{
+					int  dif = 50;
+
+					playerImage.setTextureRect(IntRect(j * 135, 136, 135, 115));
+					if (j == 0) playerImage.setPosition(50+mmove, player_height - dif * 1);
+					else if (j == 1) playerImage.setPosition(50 + mmove, player_height - dif * 2);
+					else if (j == 2) playerImage.setPosition(50 + mmove, player_height - dif * 3);
+					else if (j == 3) playerImage.setPosition(50 + mmove, player_height - dif * 2);
+					else if (j == 4) playerImage.setPosition(50 + mmove, player_height - dif * 1);
+					else if (j == 5)
+						playerImage.setPosition(50 + mmove, player_height - dif * 0);
+					xod -= 10;
+
+					window.draw(playerImage);
+					j++;
+
+					if (j >= 6)
+					{
+
+						source.x = 0;  source.y = Run;
+					}
+
+
+
+				}
+
+				/////SLIDE//////
+				else if (source.y == Slide)
+				{
+					playerImage.move(0, 2);
+					int x1;
+					if (s == 0)
+						x1 = 50;
+					if (s == 0)
+					{
+						playerImage.setTextureRect(IntRect(s * 145, 2 * 136, 145, 115));
+						playerImage.setPosition(x1 + mmove, playerImage.getPosition().y - 20);
+					}
+
+					else if (s == 4 || s == 5)
+					{
+						playerImage.setTextureRect(IntRect(s * 145, (2 * 136 + 30), 145, 80));
+						playerImage.setPosition(x1 + mmove, playerImage.getPosition().y + 20);
+					}
+
+
+					else{
+						playerImage.setTextureRect(IntRect(s * 145, (2 * 136 + 55), 145, 60));
+						playerImage.setPosition(x1 + mmove, playerImage.getPosition().y + 35);
+					}
+
+					xod -= 30;
+					window.draw(playerImage);
+					s++;
+					if (s >= 6)
+					{
+						source.x = 0;  source.y = Run;
+					}
+					playerImage.move(0, -2);
+
+				}
+				/////RUN////
+				else if (source.y == Run){
+					source.x++;
+					if (source.x >= 6)
+						source.x = 0;
+
+					playerImage.setTextureRect(IntRect(source.x * 95, source.y, 95, 90));
+					window.draw(playerImage);
+
+
+				}
+				///RUN END////
+			}
+
+			////Obstacles moving ////
+			if (timer > 50 && !life_flag)
+			{
+				xod -= 25;
+				timer = 0;
+			}
+
+			int c = 0;
+			for (t = 0; t < 16; t++)
+			{
+				if (t % 2 == 0)
+					sobstacle[t].setPosition(xod + distance[t], 292);
+				else
+					sobstacle[t].setPosition(xod + distance[t], 220);
+				window.draw(sobstacle[t]);
+
+				for (i = 0; i <3; i++)
+				{
+					if (t % 2 == 0)
+						coins[c].setPosition(xod + distance[t] + i * 65, 220 + coin_sect[c]);
+					if (t % 2 == 1)
+						coins[c].setPosition(xod + distance[t] + i * 65, 339 + coin_sect[c]);
+
+					window.draw(coins[c]);
+
+					c++;
+
+				}
+
+
+
+			}
+			sground.setPosition(0, 400);
+			//if (sobstacle[15].getPosition().x + 196 <= 0)  xod = 600;
+
+
+
+			//// Throwing Ninja star/////
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				ninja_starflag = 1;
+				nsf = 0;
+				ninja_star[ns].setPosition(playerImage.getPosition().x, playerImage.getPosition().y);
+				ns++;
+
+				if (ns > star_num) ninja_starflag = 0;
+			}
+
+
+			for (i = 0; i < ns && ninja_starflag == 1; i++)
+			{
+
+				if (ninja_star[i].getPosition().x - playerImage.getPosition().x < 20 && ninja_star[i].getPosition().x>0 && ninja_star[i].getPosition().y == playerImage.getPosition().y)
+				{
+
+					knife_effect.setPosition(playerImage.getPosition().x + 15, playerImage.getPosition().y - 10);
+					window.draw(knife_effect);
+				}
+
+				if (ninja_star[ns - 1].getPosition().x <= 1000)
+				{
+					//ninja_star[i].setTextureRect(IntRect(nsf * 60, 0, 60, 50));
+					ninja_star[i].move(40, 0);
+
+					window.draw(ninja_star[i]);
+				}
+
+			}
+
+
+			///throwing super Anives////
+
+			int knife1;
+			Aknife_flagImage.setPosition(xod + distance[10] + 80, 150);
+			if (isCollide(playerImage, Aknife_flagImage) == 1)
+			{
+				Anife_flag = 1;
+				knife1 = 0;
+
+			}
+
+
+
+			if (Anife_flag == 1)
+			{
+
+				if (Keyboard::isKeyPressed(Keyboard::S))
+				{
+					knife1 = 1;
+					knife();
+				}
+				for (i = 0; i < 5 && knife1 == 1; i++)
+				{
+
+					AnifeImgae[i].move(50 - i * 5, 0);
+					window.draw(AnifeImgae[i]);
+
+
+
+					if (AnifeImgae[4].getPosition().x > 900)
+						knife1 = 0;
+
+
+				}
+
+				for (i = 0; i < 5; i++)
+				{
+					if (AnifeImgae[i].getPosition().x > 900)
+						AnifeImgae[i].setPosition(-20, -20);
+
+				}
+
+
+			}
+
+
+
+
+			// java is Moving  and transistor also////
+			for (i = 0; i <= 4; i++)
+			{
+
+				if (flag2 == 1)
+					up = up - 30;
+				if (up <= -60) flag2 = 0;
+
+				if (flag2 == 0)
+					up = up + 30;
+				if (up >= 0) flag2 = 1;
+
+
+				java_Image[i].setTextureRect(IntRect(js * 112 + 4, 4, 112, 162));
+
+				java_Image[i].setPosition(xod + java_distance[i], 240);
+				//java_Image[i].move(-80  * 20, 0);
+				window.draw(java_Image[i]);
+
+
+			}
+
+			for (i = 0; i <= total_trans; i++)
+			{
+				transistor[i].setTextureRect(IntRect(ts * 112 + 4, 4, 112, 108));
+
+				transistor[i].setPosition(xod + tdistance[i], 292);
+				//transistor[i].move(-80 - i * 20, 0);
+				window.draw(transistor[i]);
+
+
+				if (transistor[i].getPosition().x > 0 && transistor[i].getPosition().x < 1200 + 50 || trans_ball[i].getPosition().x>0)
+				{
+
+					trans_ball[i].setPosition(xod + t1distance[i] - tx[i] * 20, 285);
+					window.draw(trans_ball[i]);
+					tx[i]++;
+				}
+			}
+			js++;
+			js = js % 4;
+			ts++;
+			ts = ts % 3;
+
+			//if (mummy.getPosition().x - playerImage.getPosition().x < 600)
+				//mj = 1;
+
+			 
+			if (sobstacle[13].getPosition().x + 200 < 0)
+			{
+				mummy_timer = mummy_clock.getElapsedTime().asMilliseconds();
+
+			//	if (playerImage.getPosition().x+50 < 330 && playerImage.getPosition().x-50>0)
+				//{
+					if (Keyboard::isKeyPressed(Keyboard::Right))
+						mmove += 20;
+
+					if (Keyboard::isKeyPressed(Keyboard::Left))
+						mmove += -20;
+				//}
+
+
+				if (mummy_timer < 5000)
+				{
+					if (sobstacle[13].getPosition().x + 500 < 0) mj = 1;
+
+					mummy.setTextureRect(IntRect(109 * mj, 2, 109, 162));
+					mummy.setPosition(1000, 230);
+					mummy.move(-20, 0);
+					mj++;
+					mj = mj % 6;
+					
+				}
+				
+
+				if (mummy_timer > 2000)
+					mummy_ball.move(-50, 0);
+					
+				
+				 if (mummy_timer>1500 && mummy_timer<2000)	mummy_ball.setPosition(mummy.getPosition().x - 40, mummy.getPosition().y);
+				 if (mummy_timer>6500 && mummy_timer<6600) mummy_ball.setPosition(mummy.getPosition().x - 40, mummy.getPosition().y);
+				
+				
+				
+				if (mummy_timer > 9000  && mummy_timer<16000 )
+				{
+					if (fabs(playerImage.getPosition().x - mummy.getPosition().x)>20)
+					mummy.move(-20, 0);
+				}
+				
+				if (mummy_timer > 16000)
+				{
+					if (mummy.getPosition().x < 1000) mummy.move(30, 0);
+				}
+
+
+				if (isCollide(playerImage,mummy_ball))
+				{
+					life_flag = 1;
+					clock2.restart();
+					mummy_ball.setPosition(-100, -80);
+				}
+
+				cout << life_flag << endl;
+				
+				window.draw(mummy_ball);
+				window.draw(mummy);
+
+				
+
+
+				
+			}
+
+			
+
+			
+
+
+
+			///// java , transistor , obstacles are getting attacked ////
+
+			int stari, cj;
+
+			for (i = 0; i < 20; i++)
+			{
+
+				cj = attack(ninja_star[i]);
+				if (cj == 1)
+					ninja_star[i].setPosition(-400, -100);
+
+
+			}
+
+			for (i = 0; i < 5; i++)
+			{
+				int aj = attack(AnifeImgae[i]);
+				if (aj == 1)
+					AnifeImgae[i].setPosition(-400, -100);
+
+			}
+
+
+
+
+			///Ground and train checking  and game over////
+			int k, x1, y1, r1, r2, m1;
+			for (k = 0; k < 16; k++)
+			{
+				x1 = playerImage.getPosition().x + 95;
+				y1 = playerImage.getPosition().y;
+				r1 = sobstacle[k].getPosition().x;
+				r2 = sobstacle[k].getPosition().x + 130;
+				m1 = sobstacle[k].getPosition().y;
+
+
+
+
+				if (x1 >= r1 - 10 && playerImage.getPosition().x <= r2 && m1 - y1 >= 88)// here i have debugged from game over
+				{
+					if (jump_flag == 0){
+						playerImage.setPosition(50 + mmove, m1 - 95);
+						source.y = Run;
+						jump_flag = 1;
+					}
+
+					player_height = 300 - 100;
+					break;
+
+				}
+
+
+				if (x1 >= r1 + 15 && playerImage.getPosition().x <= r2 && (m1 + 100 > y1) && life_flag == 0)
+				{
+
+
+
+					life_flag = 1;
+					clock2.restart();
+					sobstacle_index = k;
+
+
+				}
+
+
+			}
+
+			for (i = 0; i <= 11; i++)
+			{
+				if (isCollide(playerImage, trans_ball[i]))
+				{
+					trans_ball[i].setPosition(-1000, 0);
+					t1distance[i] = -5000;
+					life_flag = 1;
+					clock2.restart();
+				}
+
+				if (isCollide(transistor[i], playerImage))
+				{
+
+					tdistance[i] = -2500;
+					life_flag = 1;
+					clock2.restart();
+				}
+			}
+
+
+			for (i = 0; i < 5; i++)
+			{
+				if (isCollide(playerImage, java_Image[i]))
+				{
+					java_distance[i] = -5000;
+					life_flag = 1;
+					clock2.restart();
+
+				}
+
+			}
+
+
+			
+
+
+
+			for (i = 0; i < 2; i++)
+			{
+				trainImage[i].setPosition(xod + train_distance[4 + i] + 400, 310);
+				window.draw(trainImage[i]);
+			}
+
+			for (i = 0; i < 2; i++){
+				m1 = trainImage[i].getPosition().y;
+				if (x1 >= trainImage[i].getPosition().x  && x1 <= trainImage[i].getPosition().x + 444)// here i have debugged from game over
+				{
+					if (m1 - y1 >= 50)
+					{
+						if (jump_flag == 0){
+
+							playerImage.setPosition(50 + mmove, player_height - 70);
+							source.y = Run;
+							jump_flag = 1;
+						}
+						k = 17;
+						player_height = 300 - 70;
+						break;
+					}
+					else
+					{
+						train_distance[4 + i] = -1000;
+						life_flag = 1;
+						clock2.restart();
+
+					}
+
+				}
+
+			}
+
+			if (k == 16) {
+				jump_flag = 0;
+				playerImage.setPosition(playerImage.getPosition().x, sground.getPosition().y - 90);
+				player_height = 300;
+			}
+			if (playerImage.getPosition().x > 50) playerImage.move(-15, 0);
+
+
+
+
+
+			//// Intersection checking with player and good things happen////
+			for (i = 0; i < 50; i++)
+			{
+				if (isCollide(playerImage, coins[i]) == 1)
+				{
+					coin_sect[i] = -1000;
+					count++;
+					int count1 = count;
+
+
+				}
+
+			}
+
+			if (hole_image.getPosition().x - playerImage.getPosition().x <= 20)
+			{
+
+				playerImage.setPosition(-25000, -15000);
+				hole_image.setPosition(-2050, 1500);
+				hole_flag = 1;
+			}
+
+			if (xod + distance[8] + 290 < 0)
+			{
+
+				playerImage.setPosition(50+mmove, player_height);
+				hole_image.setPosition(50, 210);
+				hole_flag = 0;
+				holedex = 8;
+
+			}
+
+			if (hole_flag == 1)
+				xod -= 100;
+
+
+			/*for (i = 0; i < 5; i++)
+			{
+			window.draw(AnifeImgae[i]);
+			}
+			printf("%d\n", count);*/
+
+			//window.draw(mummy_ball);
+
+			window.draw(sground);
+			window.display();
+			window.clear();
+
+		}
+
+	}
+
+	return 0;
+}
+
+
